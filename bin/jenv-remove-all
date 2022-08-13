@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Summary: Remove all JDKs from jenv
+# Usage: jenv remove-all
+
+set -eu -o pipefail
+
+if [[ "${JENV_DEBUG:-}" ]]; then
+  set -x
+fi
+
+pushd "$(dirname -- "${BASH_SOURCE[0]}")/.." > /dev/null
+BASENAME="$(basename -- "${BASH_SOURCE[0]}")"
+
+# shellcheck disable=SC1090
+source "libexec/${BASENAME}.bash"
+
+popd > /dev/null
+shopt -s extglob
+__"${BASENAME//+([^a-z0-9_])/_}" "$@"
